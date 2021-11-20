@@ -36,18 +36,18 @@ function playRound(playerSelection, computerSelection) {
         return 'Its a tie!'
     } if (playerSelection === 'rock' && computerSelection === 'scissors') {
             playerScore++;
-            return 'You win! ' + playerSelection + ' beats ' + computerSelection + '.'
+            return 'You win! ' + playerSelection + ' beats ' + computerSelection + '.';
     }
        if (playerSelection === 'paper' && computerSelection === 'rock') {
             playerScore++;
             return 'You win! ' + playerSelection + ' beats ' + computerSelection + '.'
        } if (playerSelection === 'scissors' && computerSelection === 'paper') {
             playerScore++;
-            return 'You win! ' + playerSelection + ' beats ' + computerSelection + '.'
+            return 'You win! ' + playerSelection + ' beats ' + computerSelection + '.';
        }
        else {
             computerScore++;
-            return 'You lose! ' + playerSelection + ' is defeated by ' + computerSelection + '.'
+            return 'You lose! ' + playerSelection + ' is defeated by ' + computerSelection + '.';
        }   
 }
 
@@ -55,11 +55,11 @@ function gameScore() {
    //compare total score of player vs. computer, start with tie, then player win, end at a loss check
    //declare winner
    if (playerScore === computerScore) {
-       return `Stalemate! ${playerScore.toString()}:${computerScore.toString()}.`
+       return `Stalemate! ${playerScore.toString()}:${computerScore.toString()}.`;
    } if (playerScore > computerScore) {
-        return `You've won the game! With a score of ${playerScore.toString()} vs. ${computerScore.toString()}.`
+        return `You've won the game! With a score of ${playerScore.toString()} vs. ${computerScore.toString()}.`;
    } else {
-        return `Oh no! You lost the game! You only scored ${playerScore.toString()} while the computer won ${computerScore.toString()} points. Better luck next time!`
+        return `Oh no! You lost the game! You only scored ${playerScore.toString()} while the computer won ${computerScore.toString()} points. Better luck next time!`;
    }
 }
 
