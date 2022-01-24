@@ -1,13 +1,112 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Rock Paper Scissors</title>
     <link rel="stylesheet" href="style.css">
     <script type="text/javascript" src="script-game.js"></script>
 </head>
-
 <body>
-
+    <div class="bg-gradient">
+        <div class="bg-img">
+            <div class="bg-blur"></div>
+        </div>
+    </div>
+    
+    <div class="parent-grid">
+        <div class="full-grid main-border"></div>
+        <nav class="hide-contents">
+            <a href="" class="navbar-btn display-font"> Objective </a>
+            <div class="navbar-points"> Points: <span data-points="0">0</span></div>
+            <div class="navbar-survived"> Survived: <span data-survived="0">0</span></div>
+            <div class="navbar-lost"> Lost: <span data-lost="0">0</span></div>
+            <div class="navbar-totalg"> Total Games: <span data-total-games="0">0</span></div>
+        </nav>
+            <header>
+                <h1 class="alert-txt"><span class="display-font">Warning!</span> Error in Nav, Manual Flight Activated.</h1>
+                <div id="stat-bars">
+                    <canvas id="health-bar"></canvas>
+                    <canvas id="fuel-bar"></canvas>
+                    <canvas id="distance-bar"></canvas>
+                </div>
+            </header>
+            <section id="capt-log" class="hide-contents">
+                <div id="log-header" class="main-border container-color">
+                    <h2 class="display-font">Captain Log Y7042</h2>
+                </div>
+                <div id="computer-action" class="main-border container-color">
+                    <h3>Comp action</h3>
+                </div>
+                <div id="log-content" class="main-border container-color">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
+                        tempor incididunt ut labore et dolore magna aliqua. 
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco 
+                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute 
+                        irure dolor in reprehenderit in voluptate velit esse cillum 
+                        dolore eu fugiat nulla pariatur. Excepteur sint occaecat 
+                        cupidatat non proident, sunt in culpa qui officia deserunt 
+                        mollit anim id est laborum.
+                    </p>
+            </div>    
+            </section>
+            <section id="game-actions" class="main-border container-color">
+                <h3>Quick, how will you dodge?</h3>
+                        <div class="actions">
+                            <div class="select-action">
+                                    <div class="hexagon-container">
+                                        <img src="static/action-rock.png">
+                                        <svg class="hexagon-filter" viewbox="0 0 100 100"> 
+                                            <polygon class="hexagon-shape" points="50 1 95 25 95 75 50 99 5 75 5 25"></polygon>
+                                        </svg>
+                                    </div>
+                                    <h4>Rock</h4>
+                            </div>
+                            <div class="select-action">
+                                <div class="hexagon-container">
+                                    <img src="static/action-spock.png">
+                                    <svg class="hexagon-filter" viewbox="0 0 100 100"> 
+                                        <polygon class="hexagon-shape" points="50 1 95 25 95 75 50 99 5 75 5 25"></polygon>
+                                    </svg>
+                                </div>
+                                <h4>Paper</h4>
+                             </div>
+                            <div class="select-action">
+                                <div class="hexagon-container">
+                                    <img src="static/action-spock.png">
+                                    <svg class="hexagon-filter" viewbox="0 0 100 100"> 
+                                        <polygon class="hexagon-shape" points="50 1 95 25 95 75 50 99 5 75 5 25"></polygon>
+                                    </svg>
+                                </div>
+                                <h4>Scissors</h4>
+                            </div>
+                            <div class="select-action">
+                                <div class="hexagon-container">
+                                    <img src="static/action-spock.png">
+                                    <svg class="hexagon-filter" viewbox="0 0 100 100"> 
+                                        <polygon class="hexagon-shape" points="50 1 95 25 95 75 50 99 5 75 5 25"></polygon>
+                                    </svg>
+                                </div>
+                                <h4>Lizard</h4>
+                            </div>
+                            <div class="select-action">
+                                <div class="hexagon-container">
+                                    <img src="static/action-spock.png">
+                                    <svg class="hexagon-filter" viewbox="0 0 100 100"> 
+                                        <polygon class="hexagon-shape" points="50 1 95 25 95 75 50 99 5 75 5 25"></polygon>
+                                    </svg>
+                                </div>
+                                <h4>Spock</h4>
+                            </div>  
+            </section>
+ 
+        <div class="map-grid main-border"> 
+           <canvas id="game-map"></canvas>
+        </div>
+        <footer class="hide-contents"> 
+            <div class="footer-grid main-border"></div>
+            <div class="footer-grid-link"><a href="" id="reset-link" class="display-font">Reset Game</a></div>
+            <a href="" class="footer-btn nav-border display-font">View Code</a>
+        </footer>
+    </div>
 </body>
-
 </html>

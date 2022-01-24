@@ -1,9 +1,6 @@
 const gameOptions = ['rock', 'paper','scissors'];
 const maxGameRounds = 5;
 
-let playerSelection;
-let computerSelection;
-let gameResult;
 let playerScore = 0;
 let computerScore = 0;
 
@@ -62,16 +59,16 @@ function game() {
     for(let i = 0; i < maxGameRounds; i++) {
         trackRound++;
 
-        playerSelection = playerPlay();
-        computerSelection = computerPlay();
-        gameResult = playRound(playerSelection, computerSelection);
+        let playerSelection = playerPlay();
+        let computerSelection = computerPlay();
+        let gameResult = playRound(playerSelection, computerSelection);
         
         console.log(`Round ${trackRound.toString()}: ${gameResult}`);
     }
     console.log(getScore());
 }
 
-game();
+// game();
 
 
 
