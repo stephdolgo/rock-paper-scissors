@@ -70,6 +70,10 @@ function game() {
 
 // game();
 
+//Canvas Stat Bars
+
+
+
 
 
 
