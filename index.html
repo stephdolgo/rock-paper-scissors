@@ -12,8 +12,24 @@
         </div>
     </div>
     
-    <main id='parent-grid'>
-        <div id='full-grid' class='outline neon'></div>
+    <main class='parent-grid'>
+        <div id="start-container" class='full-grid container-color'>
+            <div id='start-alert' class='alert alert-border neon-alert container-color'>
+                <div> 
+                    <h2 class="display-font alert-text">Captain!</h2>
+                    <p class="main-text">
+                        It's Lucy - our AI! She's taken control of the ship's navigation. We have to 
+                        wrestle back control with as little damage as possible and with all the luck in the galaxy.
+                    </p>
+                    <p class="question display-font alert-text">Will you guide the crew?</p>
+                </div>
+                <div class='btn-container'>
+                    <button id="start" class='alert-btn green-border'>Yes! Obviously.</button>
+                    <button id="no" class='alert-btn red-btn'>Dear Spock, No!</button>
+                </div>
+            </div>
+        </div>
+        <div class='ui-grid outline neon'></div>
         <nav class='hide-contents'>
             <a href='' id='navbar-btn' class='display-font border-rb'> 
                 Objective
@@ -23,93 +39,114 @@
             <div id='navbar-lost' class='border-rb neon'> Lost: <span id='times-lost'>0</span></div>
             <div id='navbar-played' class='border-b neon'> Total Games: <span id='times-played'>0</span></div>
         </nav>
-            <header>
-                <h1 class='alert-text'><span class='alert-text display-font'>
-                    Warning!</span> Error in Nav, Manual Flight Activated.
-                </h1>
-                <div id='stat-bars'>
-                    <div id='health'>
-                        <progress id='health-bar' value='10' max='10'></progress>
-                        <label for='health-bar'>Health</label>
-                    </div>
-                    <div id='energy'>
-                        <progress id='energy-bar' value='10' max='10'></progress>
-                        <label for='energy-bar'>energy</label>
-                    </div>
-                    <div id='progress-game'>
-                        <progress id='progress-bar' value='0' max='10'></progress>
-                        <label for='progress-bar'>Progress</label>
-                    </div>
+        <header>
+            <h1 class='alert-text'><span class='alert-text display-font'>
+                Warning!</span> Error in Nav, Manual Flight Activated.
+            </h1>
+            <div id='stat-bars'>
+                <div id='health'>
+                    <progress id='health-bar' value='10' max='10'></progress>
+                    <label for='health-bar'>Health</label>
                 </div>
-            </header>
-            <section id='capt-log' class='hide-contents'>
-                <div id='log-header' class='main-border border--remove-btm neon container-color'>
-                    <h2 class='display-font'>Captain Log Y7042</h2>
+                <div id='energy'>
+                    <progress id='energy-bar' value='10' max='10'></progress>
+                    <label for='energy-bar'>energy</label>
                 </div>
-                <div id='computer-action' class='main-border container-color'>
-                    <h3>The Aliens:</h3>
+                <div id='progress-game'>
+                    <progress id='progress-bar' value='0' max='10'></progress>
+                    <label for='progress-bar'>Progress</label>
                 </div>
-                <div id='log-content' class='main-border container-color'>
-                    <h3> Game Begins, Round #1 </h4> 
-                    <p id='first-p' class='alert-text'>Use your luck to avoid detection by aliens...UAGHHH! Watch out for that asteroid, Captain!</p> 
-                </div>    
-            </section>
-            <section id='game-selection' class='main-border neon container-color'>
-                <h3>Quick, how will you move the ship?</h3>
-                <div class='choices'>
-                    <div id='rock' class='select-choice' role='button'>
-                            <div class='hexagon-container'>
-                                <img src='static/action-rock.png'>
-                                <svg class='hexagon-filter' viewbox='0 0 100 100'> 
-                                    <polygon class='hexagon-shape' points='50 1 95 25 95 75 50 99 5 75 5 25'></polygon>
-                                </svg>
-                            </div>
-                            <h4>Rock</h4>
+            </div>
+        </header>
+        <section id='capt-log' class='hide-contents'>
+            <div id='log-header' class='main-border border--remove-btm neon container-color'>
+                <h2 class='display-font'>Captain Log Y7042</h2>
+            </div>
+            <div id='computer-action' class='border-b border-left border-t container-color'>
+                <h3>The AI:</h3>
+                <div class='choice'>
+                    <div class='hexagon-container'>
+                        <img src='static/action-spock.png'>
+                        <svg viewbox='0 0 100 100'> 
+                            <circle class="shape-red" cx="50" cy="50" r="49"/>
+                        </svg>
                     </div>
-                    <div id='paper' class='select-choice' role='button'>
+                    <h4>Paper</h4>
+                </div>
+            </div>
+            <div id='log-content' class='main-border container-color'>
+                <h3> Game Begins, Round #1 </h4> 
+                <p id='first-p' class='alert-text'>
+                    The ship's AI system has gone rogue. Play Rock, Paper, Scissors, 🦎 , Spock to gain back control.
+                </p> 
+            </div>    
+        </section>
+        <section id="rock-paper-scissors" class='game-selection main-border neon container-color'>
+            <h3>Quick, how will you move the ship?</h3>
+            <div class='choices'>
+                <div id='rock' class='choice' role='button'>
                         <div class='hexagon-container'>
-                            <img src='static/action-spock.png'>
-                            <svg class='hexagon-filter' viewbox='0 0 100 100'> 
-                                <polygon class='hexagon-shape' points='50 1 95 25 95 75 50 99 5 75 5 25'></polygon>
+                            <img src='static/action-rock.png'>
+                            <svg viewbox='0 0 100 100'> 
+                                <polygon class='shape' points='50 1 95 25 95 75 50 99 5 75 5 25'></polygon>
                             </svg>
                         </div>
-                        <h4>Paper</h4>
-                     </div>
-                    <div id='scissors' class='select-choice' role='button'>
-                        <div class='hexagon-container'>
-                            <img src='static/action-spock.png'>
-                            <svg class='hexagon-filter' viewbox='0 0 100 100'> 
-                                <polygon class='hexagon-shape' points='50 1 95 25 95 75 50 99 5 75 5 25'></polygon>
-                            </svg>
-                        </div>
-                        <h4>Scissors</h4>
+                        <h4>Rock</h4>
+                </div>
+                <div id='paper' class='choice' role='button'>
+                    <div class='hexagon-container'>
+                        <img src='static/action-spock.png'>
+                        <svg viewbox='0 0 100 100'> 
+                            <polygon class='shape' points='50 1 95 25 95 75 50 99 5 75 5 25'></polygon>
+                        </svg>
                     </div>
-                    <div id='lizard' class='select-choice' role='button'>
-                        <div class='hexagon-container'>
-                            <img src='static/action-spock.png'>
-                            <svg class='hexagon-filter' viewbox='0 0 100 100'> 
-                                <polygon class='hexagon-shape' points='50 1 95 25 95 75 50 99 5 75 5 25'></polygon>
-                            </svg>
-                        </div>
-                        <h4>Lizard</h4>
+                    <h4>Paper</h4>
+                </div>
+                <div id='scissors' class='choice' role='button'>
+                    <div class='hexagon-container'>
+                        <img src='static/action-spock.png'>
+                        <svg viewbox='0 0 100 100'> 
+                            <polygon class='shape' points='50 1 95 25 95 75 50 99 5 75 5 25'></polygon>
+                        </svg>
                     </div>
-                    <div id='spock' class='select-choice' role='button'>
-                        <div class='hexagon-container'>
-                            <img src='static/action-spock.png'>
-                            <svg class='hexagon-filter' viewbox='0 0 100 100'> 
-                                <polygon class='hexagon-shape' points='50 1 95 25 95 75 50 99 5 75 5 25'></polygon>
-                            </svg>
-                        </div>
-                        <h4>Spock</h4>
-                    </div>  
-            </section>
- 
+                    <h4>Scissors</h4>
+                </div>
+                <div id='lizard' class='choice' role='button'>
+                    <div class='hexagon-container'>
+                        <img src='static/action-spock.png'>
+                        <svg viewbox='0 0 100 100'> 
+                            <polygon class='shape' points='50 1 95 25 95 75 50 99 5 75 5 25'></polygon>
+                        </svg>
+                    </div>
+                    <h4>Lizard</h4>
+                </div>
+                <div id='spock' class='choice' role='button'>
+                    <div class='hexagon-container'>
+                        <img src='static/action-spock.png'>
+                        <svg viewbox='0 0 100 100'> 
+                            <polygon class='shape' points='50 1 95 25 95 75 50 99 5 75 5 25'></polygon>
+                        </svg>
+                    </div>
+                    <h4>Spock</h4>
+                </div> 
+            </div> 
+        </section>
+        <div id='play-again-container' class='hidden inside-grid container-color'>
+            <div id='play-again' class='alert alert-border neon-alert container-color'>
+                <div> 
+                    <h2 class="display-font alert-text">Did you win?</h2>
+                    <p class="main-text">Thanks for playing!</p>
+                    <p class="score display-font alert-text"></p>
+                </div>
+                <button class='alert-btn green-border'>Play Again?</button>
+            </div> 
+        </div>  
         <div id='map-grid' class='main-border neon'> 
            <canvas id='game-map'></canvas>
         </div>
         <footer class='hide-contents'> 
             <div id='footer-grid-link' class='border-t neon'>
-                <a href='' id='reset-link' class='display-font'>Reset Game</a>
+                <a href='' id='reset-link' class='display-font capitalize'>Reset Game</a>
             </div>
             <a href='' id='footer-btn' class='display-font border-t border-left neon'>View Code</a>
         </footer>
