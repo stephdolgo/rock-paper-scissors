@@ -32,47 +32,38 @@ function playRound(playerSelection, computerSelection) {
     } else if (playerSelection === 'rock' && computerSelection === 'scissors' || computerSelection === 'lizard') {
         playerScore++;
         progress++;
-        energy--;
         return `Luck be with you! ${capitalize(playerSelection)} crushes ${computerSelection}. ${story()}`;
     } else if (playerSelection === 'paper' && computerSelection === 'rock') {
         playerScore++;
         progress++;
-        energy--;
         return `${capitalize(playerSelection)} covers ${computerSelection}. ${story()}`; 
     } else if (playerSelection === 'paper' && computerSelection === 'Spock') {
         playerScore++;
         progress++;
-        energy--;
         return `${capitalize(playerSelection)} disproves ${computerSelection}. ${story()}`
     } else if (playerSelection === 'scissors' && computerSelection === 'paper') {
         playerScore++;
         progress++;
-        energy--;
         return `You win! ${capitalize(playerSelection)} cuts ${computerSelection}. ${story()}`;    
     } else if (playerSelection === 'scissors' && computerSelection === 'lizard') {
         playerScore++;
         progress++;
-        energy--;
         return `You win! ${capitalize(playerSelection)} decapitates ${computerSelection}. ${story()}`; 
     } else if (playerSelection === 'lizard' && computerSelection === 'paper') {
         playerScore++;
         progress++;
-        energy--;
         return `You win! ${capitalize(playerSelection)} eats ${computerSelection}. ${story()}`;
     } else if (playerSelection === 'lizard' && computerSelection === 'spock') {
         playerScore++;
         progress++;
-        energy--;
         return `You win! ${capitalize(playerSelection)} poisons ${computerSelection}. ${story()}`;
     } else if (playerSelection === 'Spock' && computerSelection === 'scissors') {
         playerScore++;
         progress++;
-        energy--;
         return `You win! ${capitalize(playerSelection)} smashes ${computerSelection}. ${story()}`;
     } else if (playerSelection === 'Spock' && computerSelection === 'rock') {
         playerScore++;
         progress++;
-        energy--;
         return `You win! ${capitalize(playerSelection)} vaporizes ${computerSelection}. ${story()}`;
     }  else {
         computerScore++;
@@ -123,7 +114,7 @@ function story() {
         ;
         default:
             storyText = 'Don\'t Panic.';
-            console.log = "Something went wrong."
+            console.log = 'Something went wrong.'
             break;
     }
     return storyText;
@@ -135,6 +126,9 @@ function tied() {
     if (randomSelection <= 20) {
         health++;
         return tiedText = 'The ship won\'t respond, but the idle time seems to have recovered some health.'; 
+    } else if (randomSelection <= 40 && randomSelection > 20) {
+        energy++;
+        return tiedText = 'Nothing happens, but the moment of relief brings newfound energy to defeat LUCY.';
     } else {
         return tiedText = 'What awful luck.';
     }
@@ -146,9 +140,9 @@ function changeUI(gradientColor,rootColor) {
 }
 
 function updateStats() {
-    const healthBar = document.getElementById("health-bar");
-    const energyBar = document.getElementById("energy-bar");
-    const progressBar = document.getElementById("progress-bar");
+    const healthBar = document.getElementById('health-bar');
+    const energyBar = document.getElementById('energy-bar');
+    const progressBar = document.getElementById('progress-bar');
     
     healthBar.value = health;
     energyBar.value = energy;
@@ -269,19 +263,12 @@ function game() {
     let computerSelection = computerPlay();
     let roundResult = playRound(playerSelection, computerSelection);
     roundCounter++;
+    energy--;
     roundResult = roundCounter.toString() + ': ' + roundResult;
     updateLog(roundResult);
     updateStats(); 
     gameState();
 }
-
-const choices = document.querySelectorAll('#rock-paper-scissors .choice');
-choices.forEach((choice) => {
-    choice.addEventListener('click', () => {
-        playerSelection = choice.id;
-        game();
-    });
-});
 
 const startGame = document.querySelector('#start-alert #start');
 const noToGame = document.querySelector('#start-alert #no');
@@ -293,30 +280,30 @@ const playAgain = document.querySelector('#play-again button');
 const resetButton = document.getElementById('reset-link');
 
 function btnEvents() {
-    
-    
+    startGame.addEventListener('click',() => {
+        toggleHidden('start-container');
+    });
+    noToGame.addEventListener('click',() => {
+        toggleHidden('no');
+        noToGameText.innerHTML = 'with a tear in your eye you abandon the crew you\'ve known for years to their doom as your escape pod prompty hurtles itself into the giant maws of a football-sized tardigrade. Oops! Well that\'s one way to go.';
+        noToGameHeader.innerHTML = 'Waving Goodbye,';
+        noToGameQ.innerHTML = 'What a nice daydream. Ready to start?';
+        noToGameBtn.innerHTML = 'Uhhhhhh....sure.';
+    });
+    playAgain.addEventListener('click',() => {
+        updateStats();
+        clearLog();
+        toggleHidden('play-again-container');
+    });
+    resetButton.addEventListener('click', () => gameReset());
 
+    const choices = document.querySelectorAll('#rock-paper-scissors .choice');
+            choices.forEach((choice) => {
+            choice.addEventListener('click', () => {
+            playerSelection = choice.id;
+            game();
+        });
+    });
 }
 
-
-startGame.addEventListener('click',() => {
-    toggleHidden('start-container');
-});
-
-noToGame.addEventListener('click',() => {
-    toggleHidden('no');
-    noToGameText.innerHTML = 'with a tear in your eye you abandon the crew you\'ve known for years to their doom as your escape pod prompty hurtles itself into the giant maws of a football-sized tardigrade. Oops! Well that\'s one way to go.';
-    noToGameHeader.innerHTML = 'Waving Goodbye,';
-    noToGameQ.innerHTML = 'What a nice daydream. Ready to start?';
-    noToGameBtn.innerHTML = 'Uhhhhhh....sure.';
-});
-
-
-playAgain.addEventListener('click',() => {
-    updateStats();
-    clearLog();
-    toggleHidden('play-again-container');
-});
-
-resetButton.addEventListener('click', () => gameReset());
-    
+btnEvents();

@@ -4,6 +4,7 @@
     <title>Rock Paper Scissors</title>
     <link rel='stylesheet' href='style.css'>
     <script type='text/javascript' src='space-game.js' defer></script>
+    <script type='text/javascript' src='canvas.js' defer></script>
 </head>
 <body>
     <div id='bg-gradient'>
@@ -18,8 +19,8 @@
                 <div> 
                     <h2 class="display-font alert-text">Captain!</h2>
                     <p class="main-text">
-                        It's Lucy - our AI! She's taken control of the ship's navigation. We have to 
-                        wrestle back control with as little damage as possible and with all the luck in the galaxy.
+                        A rogue AI is trying to take over the ship! We have to 
+                        wrestle back control with as little damage as possible and get out of range with all the luck one can muster.
                     </p>
                     <p class="question display-font alert-text">Will you guide the crew?</p>
                 </div>
@@ -46,15 +47,15 @@
             <div id='stat-bars'>
                 <div id='health'>
                     <progress id='health-bar' value='10' max='10'></progress>
-                    <label for='health-bar'>Health</label>
+                    <label for='health-bar'>Health <span>10</span>/10</label>
                 </div>
                 <div id='energy'>
                     <progress id='energy-bar' value='10' max='10'></progress>
-                    <label for='energy-bar'>energy</label>
+                    <label for='energy-bar'>Energy <span>10</span>/10</label>
                 </div>
                 <div id='progress-game'>
                     <progress id='progress-bar' value='0' max='10'></progress>
-                    <label for='progress-bar'>Progress</label>
+                    <label for='progress-bar'>Progress <span>10</span>/10</label>
                 </div>
             </div>
         </header>
@@ -82,7 +83,7 @@
             </div>    
         </section>
         <section id="rock-paper-scissors" class='game-selection main-border neon container-color'>
-            <h3>Quick, how will you move the ship?</h3>
+            <h3>Choose your Move:</h3>
             <div class='choices'>
                 <div id='rock' class='choice' role='button'>
                         <div class='hexagon-container'>
@@ -142,7 +143,7 @@
             </div> 
         </div>  
         <div id='map-grid' class='main-border neon'> 
-           <canvas id='game-map'></canvas>
+           <canvas id='map'></canvas>
         </div>
         <footer class='hide-contents'> 
             <div id='footer-grid-link' class='border-t neon'>
