@@ -150,13 +150,39 @@ header { grid-area: 4 / 3 / 8 / 17; }
 #map-grid { 
     grid-area: 6 / 18 / 23 / 25;
     margin-left: -25px;
-} 
-
-#map {
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    position: relative;
     height: 100%;
     width: 100%;
+} 
+
+canvas {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#ship {
+    z-index: 3;
+}
+
+#computer {
+    z-index: 3;
+}
+
+#spawn {
+    z-index: 2;
+}
+
+#map {
     background-color: var(--bg-hover-color); 
     background-blend-mode: multiply;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
 }
 
 #footer-grid-link { grid-area: 25 / 2 / 25 / 20;}

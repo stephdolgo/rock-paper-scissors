@@ -3,8 +3,8 @@
 <head>
     <title>Rock Paper Scissors</title>
     <link rel='stylesheet' href='style.css'>
-    <script type='text/javascript' src='space-game.js' defer></script>
     <script type='text/javascript' src='canvas.js' defer></script>
+    <script type='text/javascript' src='game.js' defer></script>
 </head>
 <body>
     <div id='bg-gradient'>
@@ -142,8 +142,11 @@
                 <button class='alert-btn green-border'>Play Again?</button>
             </div> 
         </div>  
-        <div id='map-grid' class='main-border neon'> 
-           <canvas id='map'></canvas>
+        <div id='map-grid' class='main-border neon'>
+            <canvas id='ship'></canvas>
+            <canvas id='computer'></canvas>
+            <canvas id='spawn'></canvas> 
+            <canvas id='map'></canvas>
         </div>
         <footer class='hide-contents'> 
             <div id='footer-grid-link' class='border-t neon'>

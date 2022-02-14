@@ -2,6 +2,18 @@ const gameOptions = ['rock', 'paper','scissors','lizard','spock'];
 const bgGradient = document.getElementById('bg-gradient');
 const root = document.querySelector(':root');
 
+const totalPoints = document.getElementById('total-points');
+const timesWon = document.getElementById('times-survived');
+const timesLost = document.getElementById('times-lost');
+const timesPlayed = document.getElementById('times-played');
+const alertHeading = document.querySelector('#play-again-container h2');
+const alertP = document.querySelector('#play-again-container .main-text');
+const alertScore = document.querySelector('#play-again-container .score');
+
+const healthBar = document.getElementById('health-bar');
+const energyBar = document.getElementById('energy-bar');
+const progressBar = document.getElementById('progress-bar');
+
 let playerScore = 0;
 let computerScore = 0;
 let resultCase = 0;
@@ -26,55 +38,63 @@ function capitalize(word) {
     return word[0].toUpperCase() + word.substring(1).toLowerCase();
 }
 
+function addProgress() {
+    let randomSelection = Math.floor(Math.random() * 2 + 1);
+
+    playerScore++;
+    energy--;
+
+    animatePlayer(randomSelection);
+    
+    progress += randomSelection;
+    return progress;
+}
+
+function loseHealth() {
+    animateProjectile();
+
+    computerScore++;
+    health--;
+}
+
 function playRound(playerSelection, computerSelection) {
     if (playerSelection === computerSelection) {
         return `It's a tie! ${tied()}`
     } else if (playerSelection === 'rock' && computerSelection === 'scissors' || computerSelection === 'lizard') {
-        playerScore++;
-        progress++;
+        addProgress();
         return `Luck be with you! ${capitalize(playerSelection)} crushes ${computerSelection}. ${story()}`;
     } else if (playerSelection === 'paper' && computerSelection === 'rock') {
-        playerScore++;
-        progress++;
+        addProgress();
         return `${capitalize(playerSelection)} covers ${computerSelection}. ${story()}`; 
     } else if (playerSelection === 'paper' && computerSelection === 'Spock') {
-        playerScore++;
-        progress++;
+        addProgress();
         return `${capitalize(playerSelection)} disproves ${computerSelection}. ${story()}`
     } else if (playerSelection === 'scissors' && computerSelection === 'paper') {
-        playerScore++;
-        progress++;
+        addProgress();
         return `You win! ${capitalize(playerSelection)} cuts ${computerSelection}. ${story()}`;    
     } else if (playerSelection === 'scissors' && computerSelection === 'lizard') {
-        playerScore++;
-        progress++;
+        addProgress();
         return `You win! ${capitalize(playerSelection)} decapitates ${computerSelection}. ${story()}`; 
     } else if (playerSelection === 'lizard' && computerSelection === 'paper') {
-        playerScore++;
-        progress++;
+        addProgress();
         return `You win! ${capitalize(playerSelection)} eats ${computerSelection}. ${story()}`;
     } else if (playerSelection === 'lizard' && computerSelection === 'spock') {
-        playerScore++;
-        progress++;
+        addProgress();
         return `You win! ${capitalize(playerSelection)} poisons ${computerSelection}. ${story()}`;
     } else if (playerSelection === 'Spock' && computerSelection === 'scissors') {
-        playerScore++;
-        progress++;
+        addProgress();
         return `You win! ${capitalize(playerSelection)} smashes ${computerSelection}. ${story()}`;
     } else if (playerSelection === 'Spock' && computerSelection === 'rock') {
-        playerScore++;
-        progress++;
+        addProgress();
         return `You win! ${capitalize(playerSelection)} vaporizes ${computerSelection}. ${story()}`;
     }  else {
-        computerScore++;
-        health--;
+        loseHealth();
         return `Oops! ${capitalize(playerSelection)} is defeated by ${computerSelection}. 
         Something hits the side of the ship causing damage. I'll add it to the ever growing to-do list on required fixes, Captain.`;
     }   
 }
 
 function story() {
-    // theres 9 options, write at least over 10
     let randomSelection = Math.floor(Math.random() * 8);
     let storyText = '';
     switch(randomSelection) {
@@ -122,7 +142,6 @@ function story() {
 
 function tied() {
     let randomSelection = Math.floor(Math.random() * 100);
-    let tiedText = '';
     if (randomSelection <= 20) {
         health++;
         return tiedText = 'The ship won\'t respond, but the idle time seems to have recovered some health.'; 
@@ -139,11 +158,7 @@ function changeUI(gradientColor,rootColor) {
     root.style.setProperty('--blue', rootColor);
 }
 
-function updateStats() {
-    const healthBar = document.getElementById('health-bar');
-    const energyBar = document.getElementById('energy-bar');
-    const progressBar = document.getElementById('progress-bar');
-    
+function updateStats() { 
     healthBar.value = health;
     energyBar.value = energy;
     progressBar.value = progress;
@@ -185,15 +200,7 @@ function toggleHidden(alert) {
 }
 
 function getScore(scenerio) {
-    let totalPoints = document.getElementById('total-points');
-    let timesWon = document.getElementById('times-survived');
-    let timesLost = document.getElementById('times-lost');
-    let timesPlayed = document.getElementById('times-played');
-    let alertHeading = document.querySelector('#play-again-container h2');
-    let alertP = document.querySelector('#play-again-container .main-text');
-    let alertScore = document.querySelector('#play-again-container .score');
     let endingText = '';
-
     switch(scenerio) {
         case 'lost':
             played++;
@@ -234,7 +241,7 @@ function getScore(scenerio) {
 }
 
 function gameState() {
-    if (progress === 10 && health > 0) {
+    if (progress >= 10 && health > 0) {
         getScore('won');
     } else if (progress < 10 && energy === 0 || health === 0) {
         getScore('lost');
@@ -263,7 +270,6 @@ function game() {
     let computerSelection = computerPlay();
     let roundResult = playRound(playerSelection, computerSelection);
     roundCounter++;
-    energy--;
     roundResult = roundCounter.toString() + ': ' + roundResult;
     updateLog(roundResult);
     updateStats(); 
