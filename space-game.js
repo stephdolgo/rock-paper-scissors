@@ -40,19 +40,15 @@ function capitalize(word) {
 
 function addProgress() {
     let randomSelection = Math.floor(Math.random() * 2 + 1);
-
+    animatePlayer(randomSelection);
     playerScore++;
     energy--;
-
-    animatePlayer(randomSelection);
-    
     progress += randomSelection;
     return progress;
 }
 
 function loseHealth() {
     animateProjectile();
-
     computerScore++;
     health--;
 }
@@ -189,7 +185,7 @@ function updateLog(gameUpdate) {
 
 function clearLog() {
     const parentDiv = document.querySelector('#log-content');
-    const childP = parentDiv.querySelectorAll('p');
+   // const childP = parentDiv.querySelectorAll('p');
     if (parentDiv.hasChildNodes()) {
         parentDiv.removeChild(parentDiv.childNodes[0]);
     }  
@@ -255,6 +251,7 @@ function roundReset() {
     progress = 0;
     playerScore = 0;
     computerScore = 0;
+    resetCanvas();
 }
 
 function gameReset() {
@@ -288,6 +285,7 @@ const resetButton = document.getElementById('reset-link');
 function btnEvents() {
     startGame.addEventListener('click',() => {
         toggleHidden('start-container');
+        draw();
     });
     noToGame.addEventListener('click',() => {
         toggleHidden('no');

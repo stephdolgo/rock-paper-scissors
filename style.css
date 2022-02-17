@@ -166,20 +166,29 @@ canvas {
 }
 
 #ship {
-    z-index: 3;
+    z-index: 5;
 }
 
 #computer {
-    z-index: 3;
+    z-index: 5;
 }
 
 #spawn {
     z-index: 2;
 }
 
+#particles {
+    z-index: 4;
+}
+
 #map {
-    background-color: var(--bg-hover-color); 
-    background-blend-mode: multiply;
+    height: 100%;
+    width: 100%;
+    z-index: 3;
+}
+
+#canvas-bg {
+    background-color: #021317; 
     height: 100%;
     width: 100%;
     z-index: 1;
@@ -416,7 +425,7 @@ progress[value] {
 #start-container, #play-again-container {
     display: flex;
     align-items: center;
-    z-index: 4;
+    z-index: 10;
 }
 
 .alert {

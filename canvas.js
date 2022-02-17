@@ -13,9 +13,12 @@ const ctxPlayer = canvasPlayer.getContext('2d');
 // Computer
 const canvasComp = document.getElementById('computer');
 const ctxComp = canvasComp.getContext('2d');
-// Spawn Temporary Elements
+// Spawn Projectile
 const canvasProjectile = document.getElementById('spawn');
 const ctxProjectile = canvasProjectile.getContext('2d');
+// Spawn Particles
+const canvasParticles = document.getElementById('particles');
+const ctxParticles = canvasParticles.getContext('2d');
 // Bg for Game
 const canvasMap = document.getElementById('map');
 const ctxMap = canvasMap.getContext('2d');
@@ -74,7 +77,7 @@ class Projectile {
         this.ctx = ctx;
         this.x = x;
         this.y = y;
-        this.dy = 5;
+        this.dy = 10;
         this.radius = radius;
         this.color = color;
     }
@@ -97,19 +100,27 @@ class Particle {
         this.x = x;
         this.y = y;
         this.color = color;
-        this.velocity = Math.random() - 10.5;
+        this.radius = Math.random() * 5 + 1;
+        this.vx = 4 * (Math.random() - 0.5);
+        this.vy = 4 * (Math.random() - 0.5);
+        this.life = 100;
+        this.alpha = 1;
     }
     draw() {
+        this.ctx.save();
+        this.ctx.globalAlpha = this.alpha;
         this.ctx.beginPath();
-        this.ctx.arc(this.x, this.y, 5, 0, Math.PI*2);
-        this.ctx.fillStyle = 'rgba(' + this.color +', 1)';
+        this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
+        this.ctx.fillStyle = 'rgba(' + this.color + ', 1)';
         this.ctx.fill();
         this.ctx.closePath();
+        this.ctx.restore();
     }
     update() {
         this.draw();
-        this.x += this.velocity;
-        this.y += this.velocity;
+        this.x = this.x + this.vx;
+        this.y = this.y + this.vy;
+        this.alpha -= 0.01;
     }
 }
 
@@ -122,31 +133,31 @@ let degree = 0;
 let animateCounter = 0;
 
 let particleArray = [];
-let colorArray = [
-    '224, 8, 73',   // red
+const colorArray = [
+ // '224, 8, 73',   // red
     '0, 240, 255',  // cyan
     '255, 199, 0'   // yellow
 ];
 
-let radiusProjectile = 5;
-let randomColor = colorArray[Math.floor(Math.random() * colorArray.length)];
-
 const player = new Player(ctxPlayer, x, height - y, dx, dy, '#FFF500');
 const comp = new Computer(ctxComp, x - 20, 75, '#00F0FF');
-const projectile = new Projectile(ctxProjectile, x , y, radiusProjectile, '#00F0FF');
+const projectile = new Projectile(ctxProjectile, x, comp.y, 5, '#00F0FF')
 
 function movePlayer() {
     ctxPlayer.clearRect(0, 0, width, height);
     player.animate();
     animateCounter++;
-
     if (animateCounter <= 5) {
         requestAnimationFrame(movePlayer);
     }
 }  
 
 function animatePlayer(num) {
-    ctxProjectile.clearRect(0, 0, width, height); // removes projectile
+    // reset animated spawns
+    particleArray = [];
+    ctxProjectile.clearRect(0, 0, width, height); 
+    ctxParticles.clearRect(0, 0, width, height); 
+    // move player
     for (i = 0; i <= num; i++) {
         requestAnimationFrame(movePlayer);
         animateCounter = 0;
@@ -157,7 +168,6 @@ function rotateComp() {
     comp.animate();
     degree += 45; 
     animateCounter++;
-
     if (animateCounter < 8) {
         requestAnimationFrame(rotateComp);
     }
@@ -168,48 +178,45 @@ function animateComp() {
     animateCounter = 0;
 }
 
-const particle = new Particle(ctxProjectile, player.x, player.y + 10, randomColor);
-
 function spawnParticles() {
-    for (let i = 0; i < 15; i++) {
-        particleArray.push(new Particle(ctxProjectile, player.x, player.y + 10, randomColor));
+    for (let i = 0; i < 18; i++) {
+        let randomColor = colorArray[Math.floor(Math.random() * colorArray.length)];
+        particleArray.push(new Particle(ctxParticles, player.x, player.y + 40, randomColor));
     }
 }
 
-let update = particle.update();
+function animateParticles() { 
+    ctxParticles.clearRect(0, 0, width, height);
 
-function animateParticles() {   
-    spawnParticles();
-  /*  particleArray.forEach(particle => {
-        particle.update;
-    }); */
-    for(let i = 0; i< particleArray.length; i++) {
-        particleArray[i].update;
-    }
+    particleArray.forEach(particle => {
+        particle.update();
+        if (particle.alpha <= 0) {
+            particleArray.splice(index, 1);
+        }
+    })
+    requestAnimationFrame(animateParticles);
 }
 
-animateParticles();
-
-function spawnProjectile() {
-    //ctxProjectile.clearRect(0, 0, width, height);
-    ctxProjectile.fillStyle = 'rgba(0, 0, 0, 0.1)';
+function spawnProjectile() { 
+    ctxProjectile.fillStyle = 'rgba(2, 19, 23, 0.5)';
     ctxProjectile.fillRect(0, 0, width, height);
-    radiusProjectile--;
-
+      
     if (projectile.y < player.y + 40) {
-        requestAnimationFrame(spawnProjectile);
+        // stops projectile on collision
         projectile.spawn();
-    } else {
-        projectile.y = ydefault;
-    }
+        requestAnimationFrame(spawnProjectile);
+    } else if (projectile.y > player.y + 10) {
+        // animate particles on collision
+        requestAnimationFrame(animateParticles);
+    } 
 }
-
-animateParticles();
 
 function animateProjectile() {
+    particleArray = [];
+    projectile.y = ydefault;
     requestAnimationFrame(spawnProjectile);
-    spawnParticles();
     animateComp();
+    spawnParticles();
 }
 
 function grid() {
@@ -237,4 +244,11 @@ function draw() {
     comp.draw();
 }
 
-draw();
+function resetCanvas() {
+    particleArray = [];
+    ctxProjectile.clearRect(0, 0, width, height);
+    ctxPlayer.clearRect(0, 0, width, height);
+    player.y = height - ydefault;
+    draw();
+}
+
