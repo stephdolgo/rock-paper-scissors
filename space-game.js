@@ -10,6 +10,10 @@ const alertHeading = document.querySelector('#play-again-container h2');
 const alertP = document.querySelector('#play-again-container .main-text');
 const alertScore = document.querySelector('#play-again-container .score');
 
+const healthGroup = document.getElementById('health');
+const energyGroup = document.getElementById('energy');
+const progressGroup = document.getElementById('progress-game');
+
 const healthBar = document.getElementById('health-bar');
 const energyBar = document.getElementById('energy-bar');
 const progressBar = document.getElementById('progress-bar');
@@ -26,24 +30,16 @@ let wins = 0;
 let losses = 0;
 let played = 0;
 let points = 0;
+let randomProgress = 0;
 
 let playerSelection = '';
 
-function computerPlay() { 
-    let randomSelection = Math.floor(Math.random() * gameOptions.length);
-    return gameOptions[randomSelection];
-}
-
-function capitalize(word) {
-    return word[0].toUpperCase() + word.substring(1).toLowerCase();
-}
-
 function addProgress() {
-    let randomSelection = Math.floor(Math.random() * 2 + 1);
-    animatePlayer(randomSelection);
+    randomProgress = Math.floor(Math.random() * 2 + 1);
+    animatePlayer(randomProgress);
     playerScore++;
     energy--;
-    progress += randomSelection;
+    progress += randomProgress;
     return progress;
 }
 
@@ -53,39 +49,106 @@ function loseHealth() {
     health--;
 }
 
+function computerPlay() { 
+    let randomSelection = Math.floor(Math.random() * gameOptions.length);
+    return gameOptions[randomSelection];
+}
+
+function computerIndicator(selection) {
+    selection.classList.add('show-choice');
+    selection.querySelector('hr').classList.remove('main-border');
+    selection.querySelector('hr').classList.add('alert-border');
+    selection.querySelector('h4').innerHTML = 'Computer';
+}
+
+function playerIndicator(selection) {
+    selection.classList.remove('show-choice');
+    selection.querySelector('hr').classList.remove('alert-border');
+    selection.querySelector('hr').classList.add('main-border');
+    selection.querySelector('h4').innerHTML = 'Player';
+}
+
+function tiedIndicator(selection) {
+    selection.classList.add('show-choice');
+    selection.querySelector('hr').classList.remove('main-border');
+    selection.querySelector('hr').classList.add('alert-border');
+    selection.querySelector('h4').innerHTML = 'Tied';
+}
+
+function activeIndicator(selection, indicator) {
+    const indicateRock = document.getElementById('rock-indicator');
+    const indicatePaper = document.getElementById('paper-indicator');
+    const indicateScissors = document.getElementById('scissors-indicator');
+    const indicateLizard = document.getElementById('lizard-indicator');
+    const indicateSpock = document.getElementById('spock-indicator');
+
+    switch(selection) {
+        case 'rock':
+            indicator(indicateRock);
+            break;
+        case 'paper':
+            indicator(indicatePaper);
+            break;
+        case 'scissors':
+            indicator(indicateScissors);
+            break;
+        case 'lizard':
+            indicator(indicateLizard);
+            break;  
+        case 'spock':
+            indicator(indicateSpock);
+            break; 
+        default:
+            console.log('Error when selecting indicator style.');
+    }
+}
+
+function checkIndicator(playerSelection, computerSelection) {
+    if (playerSelection === computerSelection) {
+        activeIndicator(playerSelection, tiedIndicator); 
+        console.log('tie');
+    } else {
+        activeIndicator(computerSelection, computerIndicator);
+    }
+}
+
+function capitalize(word) {
+    return word[0].toUpperCase() + word.substring(1).toLowerCase();
+}
+
 function playRound(playerSelection, computerSelection) {
     if (playerSelection === computerSelection) {
         return `It's a tie! ${tied()}`
     } else if (playerSelection === 'rock' && computerSelection === 'scissors' || computerSelection === 'lizard') {
         addProgress();
-        return `Luck be with you! ${capitalize(playerSelection)} crushes ${computerSelection}. ${story()}`;
+        return `Luck be with you! ${capitalize(playerSelection)} crushes ${computerSelection}, +${randomProgress.toString()} progress. ${story()}`;
     } else if (playerSelection === 'paper' && computerSelection === 'rock') {
         addProgress();
-        return `${capitalize(playerSelection)} covers ${computerSelection}. ${story()}`; 
+        return `${capitalize(playerSelection)} covers ${computerSelection}, +${randomProgress.toString()} progress. ${story()}`; 
     } else if (playerSelection === 'paper' && computerSelection === 'Spock') {
         addProgress();
-        return `${capitalize(playerSelection)} disproves ${computerSelection}. ${story()}`
+        return `${capitalize(playerSelection)} disproves ${computerSelection}, +${randomProgress.toString()} progress. ${story()}`
     } else if (playerSelection === 'scissors' && computerSelection === 'paper') {
         addProgress();
-        return `You win! ${capitalize(playerSelection)} cuts ${computerSelection}. ${story()}`;    
+        return `You win! ${capitalize(playerSelection)} cuts ${computerSelection}, +${randomProgress.toString()} progress. ${story()}`;    
     } else if (playerSelection === 'scissors' && computerSelection === 'lizard') {
         addProgress();
-        return `You win! ${capitalize(playerSelection)} decapitates ${computerSelection}. ${story()}`; 
+        return `You win! ${capitalize(playerSelection)} decapitates ${computerSelection}, +${randomProgress.toString()} progress. ${story()}`; 
     } else if (playerSelection === 'lizard' && computerSelection === 'paper') {
         addProgress();
-        return `You win! ${capitalize(playerSelection)} eats ${computerSelection}. ${story()}`;
+        return `You win! ${capitalize(playerSelection)} eats ${computerSelection}, +${randomProgress.toString()} progress. ${story()}`;
     } else if (playerSelection === 'lizard' && computerSelection === 'spock') {
         addProgress();
-        return `You win! ${capitalize(playerSelection)} poisons ${computerSelection}. ${story()}`;
+        return `You win! ${capitalize(playerSelection)} poisons ${computerSelection}, +${randomProgress.toString()} progress. ${story()}`;
     } else if (playerSelection === 'Spock' && computerSelection === 'scissors') {
         addProgress();
-        return `You win! ${capitalize(playerSelection)} smashes ${computerSelection}. ${story()}`;
+        return `You win! ${capitalize(playerSelection)} smashes ${computerSelection}, +${randomProgress.toString()} progress. ${story()}`;
     } else if (playerSelection === 'Spock' && computerSelection === 'rock') {
         addProgress();
-        return `You win! ${capitalize(playerSelection)} vaporizes ${computerSelection}. ${story()}`;
+        return `You win! ${capitalize(playerSelection)} vaporizes ${computerSelection}, +${randomProgress.toString()} progress. ${story()}`;
     }  else {
         loseHealth();
-        return `Oops! ${capitalize(playerSelection)} is defeated by ${computerSelection}. 
+        return `Oops! ${capitalize(playerSelection)} is defeated by ${computerSelection}, -1 health. 
         Something hits the side of the ship causing damage. I'll add it to the ever growing to-do list on required fixes, Captain.`;
     }   
 }
@@ -169,6 +232,17 @@ function updateStats() {
         healthBar.style.setProperty('--health-bar','#E00849');
         changeUI('#E00849', '#FFB4CF');
     }
+
+    const healthLabel = healthGroup.querySelector('span');
+    const energyLabel = energyGroup.querySelector('span');
+    const progressLabel = progressGroup.querySelector('span');
+    let healthValue = 10 - health;
+    let energyValue = 10 - energy;
+    let progressValue = 10 - progress;
+
+    healthLabel.innerHTML = 10 - healthValue.toString();
+    energyLabel.innerHTML = 10 - energyValue.toString();
+    progressLabel.innerHTML = 10 - progressValue.toString();
 }
 
 function updateLog(gameUpdate) {
@@ -184,11 +258,13 @@ function updateLog(gameUpdate) {
 }
 
 function clearLog() {
-    const parentDiv = document.querySelector('#log-content');
-   // const childP = parentDiv.querySelectorAll('p');
-    if (parentDiv.hasChildNodes()) {
-        parentDiv.removeChild(parentDiv.childNodes[0]);
-    }  
+    const logList = document.querySelector('#log-content');
+    const firstLog = logList.querySelector('#first-log');
+    logList.querySelectorAll('p').forEach( item => {
+        if (item !== firstLog) {
+            item.remove()
+        }  
+    });
 }
 
 function toggleHidden(alert) {
@@ -197,7 +273,7 @@ function toggleHidden(alert) {
 
 function getScore(scenerio) {
     let endingText = '';
-    switch(scenerio) {
+    switch (scenerio) {
         case 'lost':
             played++;
             losses++;
@@ -245,6 +321,7 @@ function gameState() {
 }
 
 function roundReset() {
+    clearLog();
     changeUI('#00ff2a', '#00F0FF');
     health = 10;
     energy = 10;
@@ -271,22 +348,25 @@ function game() {
     updateLog(roundResult);
     updateStats(); 
     gameState();
+    checkIndicator(playerSelection, computerSelection);
 }
 
-const startGame = document.querySelector('#start-alert #start');
-const noToGame = document.querySelector('#start-alert #no');
-const noToGameText = document.querySelector('#start-alert .main-text');
-const noToGameHeader = document.querySelector('#start-alert h2');
-const noToGameBtn = document.getElementById('start');
-const noToGameQ = document.querySelector('#start-alert .question');
-const playAgain = document.querySelector('#play-again button');
-const resetButton = document.getElementById('reset-link');
-
-function btnEvents() {
+function startBtn() {
+    const startGame = document.querySelector('#start-alert #start');
     startGame.addEventListener('click',() => {
         toggleHidden('start-container');
         draw();
     });
+}
+
+function noStartBtn() {
+
+    const noToGame = document.querySelector('#start-alert #no');
+    const noToGameText = document.querySelector('#start-alert .main-text');
+    const noToGameHeader = document.querySelector('#start-alert h2');
+    const noToGameBtn = document.getElementById('start');
+    const noToGameQ = document.querySelector('#start-alert .question');
+
     noToGame.addEventListener('click',() => {
         toggleHidden('no');
         noToGameText.innerHTML = 'with a tear in your eye you abandon the crew you\'ve known for years to their doom as your escape pod prompty hurtles itself into the giant maws of a football-sized tardigrade. Oops! Well that\'s one way to go.';
@@ -294,20 +374,55 @@ function btnEvents() {
         noToGameQ.innerHTML = 'What a nice daydream. Ready to start?';
         noToGameBtn.innerHTML = 'Uhhhhhh....sure.';
     });
+}
+
+function playAgainBtn() {
+    const playAgain = document.querySelector('#play-again button');
     playAgain.addEventListener('click',() => {
         updateStats();
         clearLog();
         toggleHidden('play-again-container');
     });
-    resetButton.addEventListener('click', () => gameReset());
+}
 
+function resetBtn() {
+    const resetButton = document.getElementById('reset-btn');
+    resetButton.addEventListener('click', () => gameReset());
+}
+
+function openRulesBtn() {
+    const openRules = document.getElementById('navbar-btn');
+    openRules.addEventListener('click', () => {toggleHidden('navbar-rules')});
+}
+
+function runGame() {
     const choices = document.querySelectorAll('#rock-paper-scissors .choice');
-            choices.forEach((choice) => {
-            choice.addEventListener('click', () => {
+    const choicesArray = Array.from(choices);
+    choicesArray.forEach((choice) => {
+        choice.addEventListener('click', () => {
             playerSelection = choice.id;
+            activeIndicator(playerSelection, playerIndicator);
+            
+            for (i = 0; i < choicesArray.length; i++){
+                if (choicesArray[i] != choice) {
+                    choicesArray[i].querySelector('.player-choice').classList.remove('show-choice');
+                    activeIndicator(choicesArray[i].id, playerIndicator);
+                } else {
+                    choice.querySelector('.player-choice').classList.add('show-choice');
+                }
+            } 
             game();
         });
     });
 }
 
-btnEvents();
+function initate() {
+    startBtn();
+    noStartBtn();
+    playAgainBtn();
+    resetBtn();
+    openRulesBtn();
+    runGame();
+}
+
+initate();
