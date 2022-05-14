@@ -1,160 +1,202 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
     <title>Rock Paper Scissors</title>
-    <link rel='stylesheet' href='style.css'>
-    <script type='text/javascript' src='canvas.js' defer></script>
-    <script type='text/javascript' src='space-game.js' defer></script>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="canvas.js" defer></script>
+    <script type="text/javascript" src="space-game.js" defer></script>
+    <link rel="preload" href="static/fonts/NicoMoji/NicoMoji-Regular.woff" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="static/fonts/k2D/K2D-Regular.woff" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="static/fonts/k2D/K2D-Bold.woff" as="font" type="font/woff2" crossorigin>
 </head>
 <body>
-    <div id='bg-gradient'>
-        <div class='bg-img'>
-            <div class='bg-blur'></div>
+    <div id="bg-gradient">
+        <div class="bg-img">
+            <div class="bg-blur"></div>
         </div>
     </div>
-    
-    <main class='parent-grid'>
-        <div id="start-container" class='full-grid container-color'>
-            <div id='start-alert' class='alert alert-border neon-alert container-color'>
+    <main class="parent-grid">
+
+        <!--Pop-ups and Nav Rules-->
+
+        <div id="start-container" class="full-grid container-color">
+            <div id="start-alert" class="alert alert-border neon-alert container-color">
                 <div> 
                     <h2 class="display-font alert-text">Captain!</h2>
                     <p class="main-text">
                         A rogue AI is trying to take over the ship! We have to 
-                        wrestle back control with as little damage as possible and get out of range with all the luck one can muster.
+                        wrestle back control with as little damage as possible and get within
+                        range to deactivate with all the luck one can muster.
                     </p>
                     <p class="question display-font alert-text">Will you guide the crew?</p>
                 </div>
-                <div class='btn-container'>
-                    <button id="start" class='alert-btn green-border'>Yes! Obviously.</button>
-                    <button id="no" class='alert-btn red-btn'>Dear Spock, No!</button>
+                <div class="btn-container">
+                    <button id="start" class="alert-btn green-border">Yes! Obviously.</button>
+                    <button id="no" class="alert-btn red-btn">Dear Spock, No!</button>
                 </div>
             </div>
         </div>
-        <div class='ui-grid outline neon'></div>
-        <nav class='hide-contents'>
-            <a href='' id='navbar-btn' class='display-font border-rb'> 
-                Objective
-            </a>
-            <div id='navbar-points' class='border-rb neon'> Points: <span id='total-points'>0</span></div>
-            <div id='navbar-survived' class='border-rb neon'> Survived: <span id='times-survived'>0</span></div>
-            <div id='navbar-lost' class='border-rb neon'> Lost: <span id='times-lost'>0</span></div>
-            <div id='navbar-played' class='border-b neon'> Total Games: <span id='times-played'>0</span></div>
-        </nav>
-        <header>
-            <h1 class='alert-text'><span class='alert-text display-font'>
-                Warning!</span> Error in Nav, Manual Flight Activated.
-            </h1>
-            <div id='stat-bars'>
-                <div id='health'>
-                    <progress id='health-bar' value='10' max='10'></progress>
-                    <label for='health-bar'>Health <span>10</span>/10</label>
-                </div>
-                <div id='energy'>
-                    <progress id='energy-bar' value='10' max='10'></progress>
-                    <label for='energy-bar'>Energy <span>10</span>/10</label>
-                </div>
-                <div id='progress-game'>
-                    <progress id='progress-bar' value='0' max='10'></progress>
-                    <label for='progress-bar'>Progress <span>10</span>/10</label>
-                </div>
-            </div>
-        </header>
-        <section id='capt-log' class='hide-contents'>
-            <div id='log-header' class='main-border border--remove-btm neon container-color'>
-                <h2 class='display-font'>Captain Log Y7042</h2>
-            </div>
-            <div id='computer-action' class='border-b border-left border-t container-color'>
-                <h3>The AI:</h3>
-                <div class='choice'>
-                    <div class='hexagon-container'>
-                        <img src='static/action-spock.png'>
-                        <svg viewbox='0 0 100 100'> 
-                            <circle class="shape-red" cx="50" cy="50" r="49"/>
-                        </svg>
-                    </div>
-                    <h4>Paper</h4>
-                </div>
-            </div>
-            <div id='log-content' class='main-border container-color'>
-                <h3> Game Begins, Round #1 </h4> 
-                <p id='first-p' class='alert-text'>
-                    The ship's AI system has gone rogue. Play Rock, Paper, Scissors, 🦎 , Spock to gain back control.
-                </p> 
-            </div>    
-        </section>
-        <section id="rock-paper-scissors" class='game-selection main-border neon container-color'>
-            <h3>Choose your Move:</h3>
-            <div class='choices'>
-                <div id='rock' class='choice' role='button'>
-                        <div class='hexagon-container'>
-                            <img src='static/action-rock.png'>
-                            <svg viewbox='0 0 100 100'> 
-                                <polygon class='shape' points='50 1 95 25 95 75 50 99 5 75 5 25'></polygon>
-                            </svg>
-                        </div>
-                        <h4>Rock</h4>
-                </div>
-                <div id='paper' class='choice' role='button'>
-                    <div class='hexagon-container'>
-                        <img src='static/action-spock.png'>
-                        <svg viewbox='0 0 100 100'> 
-                            <polygon class='shape' points='50 1 95 25 95 75 50 99 5 75 5 25'></polygon>
-                        </svg>
-                    </div>
-                    <h4>Paper</h4>
-                </div>
-                <div id='scissors' class='choice' role='button'>
-                    <div class='hexagon-container'>
-                        <img src='static/action-spock.png'>
-                        <svg viewbox='0 0 100 100'> 
-                            <polygon class='shape' points='50 1 95 25 95 75 50 99 5 75 5 25'></polygon>
-                        </svg>
-                    </div>
-                    <h4>Scissors</h4>
-                </div>
-                <div id='lizard' class='choice' role='button'>
-                    <div class='hexagon-container'>
-                        <img src='static/action-spock.png'>
-                        <svg viewbox='0 0 100 100'> 
-                            <polygon class='shape' points='50 1 95 25 95 75 50 99 5 75 5 25'></polygon>
-                        </svg>
-                    </div>
-                    <h4>Lizard</h4>
-                </div>
-                <div id='spock' class='choice' role='button'>
-                    <div class='hexagon-container'>
-                        <img src='static/action-spock.png'>
-                        <svg viewbox='0 0 100 100'> 
-                            <polygon class='shape' points='50 1 95 25 95 75 50 99 5 75 5 25'></polygon>
-                        </svg>
-                    </div>
-                    <h4>Spock</h4>
-                </div> 
-            </div> 
-        </section>
-        <div id='play-again-container' class='hidden inside-grid container-color'>
-            <div id='play-again' class='alert alert-border neon-alert container-color'>
+        <div id="play-again-container" class="hidden inside-grid container-color">
+            <div id="play-again" class="alert alert-border neon-alert container-color">
                 <div> 
                     <h2 class="display-font alert-text">Did you win?</h2>
                     <p class="main-text">Thanks for playing!</p>
                     <p class="score display-font alert-text"></p>
                 </div>
-                <button class='alert-btn green-border'>Play Again?</button>
+                <button class="alert-btn green-border">Play Again?</button>
             </div> 
-        </div>  
-        <div id='map-grid' class='main-border neon'>
-            <canvas id='ship'></canvas>
-            <canvas id='computer'></canvas>
-            <canvas id='particles'></canvas>
-            <canvas id='spawn'></canvas> 
-            <canvas id='map'></canvas>
-            <div id='canvas-bg'></div>
-        </div>
-        <footer class='hide-contents'> 
-            <div id='footer-grid-link' class='border-t neon'>
-                <a href='' id='reset-link' class='display-font capitalize'>Reset Game</a>
+        </div> 
+        <div id="navbar-rules" class="container-color border-r hidden">
+            <div>
+                <h2 class="alert-text">Goal</h2>
+                <p>
+                    Reach the AI threatening your crew before health or fuel drops to zero. 
+                </p>
+                <h2 class="alert-text">How to Play</h2>
+                <p> 
+                    Scissors cuts Paper<br>
+    
+                    Paper covers Rock<br>
+    
+                    Rock crushes Lizard<br>
+    
+                    Lizard poisons Spock<br>
+    
+                    Spock smashes Scissors<br>
+    
+                    Scissors decapitates Lizard<br>
+    
+                    Lizard eats Paper<br>
+    
+                    Paper disproves Spock<br>
+    
+                    Spock vaporizes Rock<br>
+    
+                    (and as it always has) Rock crushes Scissors
+                </p>
             </div>
-            <a href='' id='footer-btn' class='display-font border-t border-left neon'>View Code</a>
+        </div>
+
+        <!--Content-->
+
+        <div class="ui-grid outline neon"></div>
+        <nav>
+            <div id="navbar-btn" class="display-font border-rb"> 
+                Rules
+            </div>
+            <div id="navbar-points" class="border-rb neon"> Points: <span id="total-points">0</span></div>
+            <div id="navbar-survived" class="border-rb neon"> Survived: <span id="times-survived">0</span></div>
+            <div id="navbar-lost" class="border-rb neon"> Lost: <span id="times-lost">0</span></div>
+            <div id="navbar-played" class="border-b neon"> Total Games: <span id="times-played">0</span></div>
+        </nav>
+        <header>
+            <h1 class="alert-text">
+                <span class="alert-text display-font"> Warning!</span> 
+                Defeat the rouge AI before health runs out.
+            </h1>
+        </header>
+        <section id="capt-log" class="hide-contents">
+            <div id="log-status" class="container-color neon border-left border-t border-b">
+                <div id="stat-bars">
+                    <div id="health">
+                        <progress id="health-bar" value="10" max="10"></progress>
+                        <label for="health-bar">Health <span>10</span>/10</label>
+                    </div>
+                    <div id="energy">
+                        <progress id="energy-bar" value="10" max="10"></progress>
+                        <label for="energy-bar">Energy <span>10</span>/10</label>
+                    </div>
+                    <div id="progress-game">
+                        <progress id="progress-bar" value="0" max="10"></progress>
+                        <label for="progress-bar">Progress <span>0</span>/10</label>
+                    </div>
+                </div>
+            </div>
+            <div id="log-header" class="main-border border--remove-btm neon container-color">
+                <h2> Captain Log </h2>
+            </div>
+            <div id="log-content" class="main-border container-color">
+                <h3> Game Begins, Round #1 </h4> 
+                <p id="first-log" class="alert-text">
+                    A rogue AI is trying to take control of your ship. Play Rock, Paper, Scissors, 🦎 , 
+                    Spock to gain back control and deactivate the AI.
+                </p> 
+            </div>    
+        </section>
+        <section id="rock-paper-scissors" class="game-selection main-border neon container-color">
+            <h2 class="alert-text">Choose Wisely:</h2>
+            <div class="choices">
+                <div id="rock" class="choice" role="button">
+                    <div class="choice-btn">
+                        <label>Rock</label>
+                        <img src="static/rock.png">
+                    </div>
+                    <div id="rock-indicator" class="player-choice">
+                        <hr class="main-border">
+                        <h4>Player</h4>
+                    </div>
+                </div>
+                <div id="paper" class="choice" role="button">
+                    <div class="choice-btn">
+                        <label>Paper</label>
+                        <img src="static/paper.png">
+                    </div>
+                    <div id="paper-indicator" class="player-choice">
+                        <hr class="main-border">
+                        <h4>Player</h4>
+                    </div>
+                </div>
+                <div id="scissors" class="choice" role="button">
+                    <div class="choice-btn">
+                        <label>Scissors</label>
+                        <img src="static/scissors.png">
+                    </div>
+                    <div id="scissors-indicator" class="player-choice">
+                        <hr class="main-border">
+                        <h4>Player</h4>
+                    </div>
+                </div>
+                <div id="lizard" class="choice" role="button">
+                    <div class="choice-btn">
+                        <label>Lizard</label>
+                        <img src="static/lizard.png">
+                    </div>
+                    <div id="lizard-indicator" class="player-choice">
+                        <hr class="main-border">
+                        <h4>Player</h4>
+                    </div>
+                </div>
+                <div id="spock" class="choice" role="button">
+                    <div class="choice-btn">
+                        <label>Spock</label>
+                        <img src="static/spock.png">
+                    </div>
+                    <div id="spock-indicator" class="player-choice">
+                        <hr class="main-border">
+                        <h4>Player</h4>
+                    </div>
+                </div> 
+            </div> 
+            <div class="choice-indicators">
+            </div>
+        </section> 
+        <div id="map-grid" class="main-border neon">
+            <canvas id="ship"></canvas>
+            <canvas id="computer"></canvas>
+            <canvas id="particles"></canvas>
+            <canvas id="spawn"></canvas> 
+            <canvas id="map"></canvas>
+            <div id="canvas-bg"></div>
+        </div>
+        <footer> 
+            <div id="footer-grid-link" class="border-t neon">
+                <button id="reset-btn" class="display-font">Reset Game</button>
+            </div>
+            <a href="https://github.com/stephdolgo/rock-paper-scissors" 
+            id="footer-btn" class="display-font border-t border-left neon">
+                <img src="static/github/GitHub-Mark-Light-120px-plus.png">
+                View Code
+            </a>
         </footer>
     </main>
 </body>
