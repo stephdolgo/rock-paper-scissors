@@ -188,7 +188,7 @@ function spawnParticles() {
 function animateParticles() { 
     ctxParticles.clearRect(0, 0, width, height);
 
-    particleArray.forEach(particle => {
+    particleArray.forEach((particle, index) => {
         particle.update();
         if (particle.alpha <= 0) {
             particleArray.splice(index, 1);
