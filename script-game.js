@@ -1,4 +1,6 @@
 const gameOptions = ['rock', 'paper','scissors','lizard','spock'];
+const choices = document.querySelectorAll('#rock-paper-scissors .choice');
+const choicesArray = Array.from(choices);
 const bgGradient = document.getElementById('bg-gradient');
 const root = document.querySelector(':root');
 
@@ -24,14 +26,13 @@ let resultCase = 0;
 let health = 10;
 let energy = 10;
 let progress = 0;
-
+let currentGameNum = 1;
 let roundCounter = 0;
 let wins = 0;
 let losses = 0;
 let played = 0;
 let points = 0;
 let randomProgress = 0;
-
 let playerSelection = '';
 
 function addProgress() {
@@ -75,6 +76,15 @@ function tiedIndicator(selection) {
     selection.querySelector('h4').innerHTML = 'Tied';
 }
 
+function resetIndicator(selection) {
+    choicesArray.forEach((choice) => {
+        for (i = 0; i < choicesArray.length; i++){
+            choice.querySelector('.player-choice').classList.remove('show-choice');
+            choice.querySelector('hr').classList.remove('main-border');
+        } 
+    });
+}
+
 function activeIndicator(selection, indicator) {
     const indicateRock = document.getElementById('rock-indicator');
     const indicatePaper = document.getElementById('paper-indicator');
@@ -104,12 +114,13 @@ function activeIndicator(selection, indicator) {
 }
 
 function checkIndicator(playerSelection, computerSelection) {
-    if (playerSelection === computerSelection) {
+    if (playerSelection === 'reset') {
+        resetIndicator();
+    } else if (playerSelection === computerSelection) {
         activeIndicator(playerSelection, tiedIndicator); 
-        console.log('tie');
     } else {
         activeIndicator(computerSelection, computerIndicator);
-    }
+    } 
 }
 
 function capitalize(word) {
@@ -312,6 +323,11 @@ function getScore(scenerio) {
     }
 }
 
+function updateGameNum() {
+    const gameNum = document.getElementById('game-num');
+    gameNum.innerText = currentGameNum.toString();
+}
+
 function gameState() {
     if (progress >= 10 && health > 0) {
         getScore('won');
@@ -323,21 +339,31 @@ function gameState() {
 function roundReset() {
     clearLog();
     changeUI('#00ff2a', '#00F0FF');
+    currentGameNum++;
+    updateGameNum();
     health = 10;
     energy = 10;
     progress = 0;
     playerScore = 0;
     computerScore = 0;
+    roundCounter = 0;
     resetCanvas();
+    document.querySelector('#log-content p').classList.add('alert-text');
 }
 
 function gameReset() {
-    roundReset();
+    currentGameNum = 0;
     roundCounter = 0;
+    roundReset();
     wins = 0;
     losses = 0;
     played = 0;
     points = 0;
+    timesPlayed.innerHTML = played.toString();
+    timesWon.innerHTML = wins.toString();
+    timesLost.innerHTML = losses.toString();
+    totalPoints.innerHTML = points.toString();
+    checkIndicator('reset', 'reset');
 }
 
 function game() {  
@@ -369,9 +395,9 @@ function noStartBtn() {
 
     noToGame.addEventListener('click',() => {
         toggleHidden('no');
-        noToGameText.innerHTML = 'with a tear in your eye you abandon the crew you\'ve known for years to their doom as your escape pod prompty hurtles itself into the giant maws of a football-sized tardigrade. Oops! Well that\'s one way to go.';
-        noToGameHeader.innerHTML = 'Waving Goodbye,';
-        noToGameQ.innerHTML = 'What a nice daydream. Ready to start?';
+        noToGameText.innerHTML = 'You abandon the crew and hop into an escape pod only to prompty fly into the giant maws of a football-sized tardigrade.';
+        noToGameHeader.innerHTML = 'Oops,';
+        noToGameQ.innerHTML = 'Ready to play?';
         noToGameBtn.innerHTML = 'Uhhhhhh....sure.';
     });
 }
@@ -396,8 +422,6 @@ function openRulesBtn() {
 }
 
 function runGame() {
-    const choices = document.querySelectorAll('#rock-paper-scissors .choice');
-    const choicesArray = Array.from(choices);
     choicesArray.forEach((choice) => {
         choice.addEventListener('click', () => {
             playerSelection = choice.id;
